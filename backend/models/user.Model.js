@@ -14,7 +14,7 @@ const userModel = new mongoose.Schema({
         type:String,
         required:true,
     },
-    ProfilePhoto : {
+    profilePhoto : {
         type : String,
         default : ""
     },
