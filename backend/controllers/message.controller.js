@@ -45,7 +45,7 @@ export const getMessage = async(req, res)=>{
         }).populate('messages')
         console.log(conversation);
         
-       
+       return res.status(200).json({success:true, messages:conversation?.messages , message:"get messages successfully!"})
     } catch (error) {
         console.log(error);
     }
