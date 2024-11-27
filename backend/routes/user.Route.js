@@ -1,6 +1,7 @@
 import express from 'express'
 import { getOtherUsers, login, logout, register } from '../controllers/user.Controller.js'
 import { isAuthenticated } from '../middleware/isAuthenticated.js'
+import { getMessage } from '../controllers/message.controller.js'
 
 const router = express.Router()
 
