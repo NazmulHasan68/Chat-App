@@ -1,9 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { setAuthUser } from "../redux/userSlice";
 
 export default function Login() {
+  const dipatch= useDispatch()
   const navigate = useNavigate()
   const [user , setuser] = useState({
     username:"",
@@ -26,6 +29,7 @@ export default function Login() {
       );
       if (res.data.success) {
         toast.success(res.data.message); 
+        dipatch(setAuthUser(res.data))
         navigate('/'); 
       }
       setuser({
