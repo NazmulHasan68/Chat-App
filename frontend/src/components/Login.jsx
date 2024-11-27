@@ -24,15 +24,16 @@ export default function Login() {
           withCredentials: true,
         }
       );
-      if(res.data.success){
-        toast.success(res.data.message)
-        navigate('/')
+      if (res.data.success) {
+        toast.success(res.data.message); 
+        navigate('/'); 
       }
       setuser({
         email:"",
         password: "",
       });
     } catch (error) {
+      toast.error(error.response.data.message);
       console.log(error);
     }
   }
@@ -53,6 +54,7 @@ export default function Login() {
             <input
               type="text"
               placeholder="Username "
+              required
               value={user.username}
               onChange={(e)=>setuser({...user, username:e.target.value})}
               className="w-full input-bordered h-10 p-2 bg-red-50 text-slate-500 outline-none rounded-lg"
@@ -68,6 +70,7 @@ export default function Login() {
             <input
               type="password"
               placeholder="password"
+                required
               value={user.password}
               onChange={(e)=>setuser({...user, password:e.target.value})}
               className="w-full input-bordered h-10 p-2 bg-red-50 text-slate-500 outline-none rounded-lg"

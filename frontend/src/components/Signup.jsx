@@ -34,6 +34,7 @@ export default function Signup() {
         navigate('/login')
       }
     } catch (error) {
+      toast.error(error.response.data.message);
       console.log(error);
     }
     setuser({
