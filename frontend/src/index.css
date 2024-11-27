@@ -10,4 +10,14 @@ body{
     background-repeat: no-repeat;
     height: 100vh;
     width:100%
+
+}
+
+/* Hide scrollbar but allow scrolling */
+.scrollbar-none::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari, Edge */
+  }
+.scrollbar-none {
+    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
 }
