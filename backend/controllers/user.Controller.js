@@ -38,40 +38,58 @@ export const register = async(req, res)=>{
 }
 
 
-export const login = async(req, res) =>{
+export const login = async (req, res) => {
     try {
-        const {username , password} = req.body
-        if(!username ||!password){
-            return res.status(400).json({message:"All field are required"})
-        }
-        const user = await User.findOne({username})
-        if(!user){
-            return res.status(400).json({
-                message: "Incorrect username or password"
-            })
-        }
-        const isPasswordMatch = await bcryptjs.compare(password, user.password)
-        if(!isPasswordMatch){
-            return res.status(400).json({
-                success:false,
-                message: "Incorrect username or password"
-            })
-        }
-        const tokendata = {
-            userId : user._id
-        }
-        const token = await jwt.sign(tokendata, process.env.JWT,{expiresIn:'1d'})
-        return res.status(200).cookie("token", token, {maxAge:1*24*60*60*1000, httpOnly:true, sameSite:'strict'}).json({
-            _id:user._id,
-            username:user.username,
-            fullname:user.fullname,
-            profilePhoto:user.profilePhoto
-        })
+        const { username, password } = req.body;
 
+        // Validate input fields
+        if (!username || !password) {
+            return res.status(400).json({ success: false, message: "All fields are required" });
+        }
+
+        // Check if the user exists
+        const user = await User.findOne({ username });
+ 
+        if (!user) {
+            return res.status(400).json({ success: false, message: "Incorrect username or password" });
+        }
+
+        // Validate password
+        const isPasswordMatch = await bcryptjs.compare(password, user.password);
+        console.log(isPasswordMatch);
+        
+        if (!isPasswordMatch) {
+            return res.status(400).json({ success: false, message: "Incorrect username or password" });
+        }
+
+        // Generate token
+        const tokenData = { userId: user._id };
+        const token = jwt.sign(tokenData, process.env.JWT, { expiresIn: '1d' });
+
+        // Set cookie options
+        const cookieOptions = {
+            maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
+            httpOnly: true,
+            sameSite: 'strict',
+            secure: process.env.NODE_ENV === 'production', // Secure in production
+        };
+
+        // Send response
+        return res.status(200).cookie("token", token, cookieOptions).json({
+            success: true,
+            _id: user._id,
+            username: user.username,
+            fullname: user.fullname,
+            profilePhoto: user.profilePhoto,
+            message:"Logged in successfully!"
+        });
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
-}
+};
+
+
 
 export const logout = async(req, res)=>{
     try {
