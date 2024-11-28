@@ -8,6 +8,7 @@ export default function OtherUser({user}) {
         dispatch(setSelectedUser(user))
     }
     const {selectedUser} = useSelector(store=>store.user)
+    
   return (
     <div>
         <div onClick={()=>seletecUserhandler(user)} className={`${selectedUser?._id === user._id? 'bg-white/50 ': '' } flex items-center gap-4 bg-slate-50/20 hover:bg-slate-50/60 rounded-md  cursor-pointer  p-2`}>

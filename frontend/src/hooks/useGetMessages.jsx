@@ -10,7 +10,7 @@ function useGetMessages() {
     const fetchMessages = async()=>{
         try {
             const res = await axios.get(`http://localhost:8000/api/v1/message/${selectedUser?._id}`, {withCredentials:true})
-            // dispatch(setMessage(res.data.message))
+            dispatch(setMessage(res.data.messages))
             console.log(res);
             
         } catch (error) {
